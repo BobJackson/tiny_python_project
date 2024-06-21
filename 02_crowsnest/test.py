@@ -36,3 +36,11 @@ def test_consonant():
     for word in consonant_words:
         out = getoutput(f'{prg} {word}')
         assert out.strip() == template.format('a', word)
+
+
+def test_consonant_upper():
+    """brigantine -> a Brigantine"""
+
+    for word in consonant_words:
+        out = getoutput(f'{prg} {word.title()}')
+        assert out.strip() == template.format('a', word.title())
