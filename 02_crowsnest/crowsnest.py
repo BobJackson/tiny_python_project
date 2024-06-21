@@ -55,7 +55,7 @@ def main():
 
     args = get_args()
     word = args.word
-    unit = "an" if word[0] in 'aeiou' else "a"
+    unit = "an" if word[0].lower() in 'aeiou' else "a"
 
     print(f'Ahoy, Captain, {unit} {word} off the larboard bow!')
 
