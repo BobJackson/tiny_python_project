@@ -55,8 +55,9 @@ def main():
 
     args = get_args()
     word = args.word
+    unit = "an" if word[0] in 'aeiou' else "a"
 
-    print(f'Ahoy, Captain, a {word} off the larboard bow!')
+    print(f'Ahoy, Captain, {unit} {word} off the larboard bow!')
 
 
 # --------------------------------------------------

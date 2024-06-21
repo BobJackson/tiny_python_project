@@ -12,6 +12,7 @@ consonant_words = [
     'regatta', 'submarine', 'tanker', 'vessel', 'whale', 'xebec', 'yatch',
     'zebrafish'
 ]
+vowel_words = ['aviso', 'eel', 'iceberg', 'octopus', 'upbound']
 template = 'Ahoy, Captain, {} {} off the larboard bow!'
 
 
@@ -44,3 +45,11 @@ def test_consonant_upper():
     for word in consonant_words:
         out = getoutput(f'{prg} {word.title()}')
         assert out.strip() == template.format('a', word.title())
+
+
+def test_vowel():
+    """octopus -> an octopus"""
+
+    for word in vowel_words:
+        out = getoutput(f'{prg} {word}')
+        assert out.strip() == template.format('an', word)
