@@ -53,3 +53,11 @@ def test_vowel():
     for word in vowel_words:
         out = getoutput(f'{prg} {word}')
         assert out.strip() == template.format('an', word)
+
+
+def test_vowel_upper():
+    """octopus -> an Octopus"""
+
+    for word in vowel_words:
+        out = getoutput(f'{prg} {word.upper()}')
+        assert out.strip() == template.format('an', word.upper())
