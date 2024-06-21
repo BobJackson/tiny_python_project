@@ -25,6 +25,26 @@ class Args(NamedTuple):
 
 
 # --------------------------------------------------
+def main() -> None:
+    """Make a jazz noise here"""
+
+    args = get_args()
+    program = args.program
+
+    if os.path.isfile(program) and not args.overwrite:
+        answer = input(f'"{program}" exists.  Overwrite? [yN] ')
+        if not answer.lower().startswith('y'):
+            sys.exit('Will not overwrite. Bye!')
+
+    print(body(args), file=open(program, 'wt'), end='')
+
+    if platform.system() != 'Windows':
+        subprocess.run(['chmod', '+x', program], check=True)
+
+    print(f'Done, see new script "{program}."')
+
+
+# --------------------------------------------------
 def get_args() -> Args:
     """Get arguments"""
 
@@ -72,23 +92,20 @@ def get_args() -> Args:
 
 
 # --------------------------------------------------
-def main() -> None:
-    """Make a jazz noise here"""
+def get_defaults():
+    """Get defaults from ~/.new.py"""
 
-    args = get_args()
-    program = args.program
+    rc = os.path.join(str(Path.home()), '.new.py')
+    defaults = {}
+    if os.path.isfile(rc):
+        for line in open(rc):
+            match = re.match('([^=]+)=([^=]+)', line)
+            if match:
+                key, val = map(str.strip, match.groups())
+                if key and val:
+                    defaults[key] = val
 
-    if os.path.isfile(program) and not args.overwrite:
-        answer = input(f'"{program}" exists.  Overwrite? [yN] ')
-        if not answer.lower().startswith('y'):
-            sys.exit('Will not overwrite. Bye!')
-
-    print(body(args), file=open(program, 'wt'), end='')
-
-    if platform.system() != 'Windows':
-        subprocess.run(['chmod', '+x', program], check=True)
-
-    print(f'Done, see new script "{program}."')
+    return defaults
 
 
 # --------------------------------------------------
@@ -170,23 +187,6 @@ def main():
 if __name__ == '__main__':
     main()
 """
-
-
-# --------------------------------------------------
-def get_defaults():
-    """Get defaults from ~/.new.py"""
-
-    rc = os.path.join(str(Path.home()), '.new.py')
-    defaults = {}
-    if os.path.isfile(rc):
-        for line in open(rc):
-            match = re.match('([^=]+)=([^=]+)', line)
-            if match:
-                key, val = map(str.strip, match.groups())
-                if key and val:
-                    defaults[key] = val
-
-    return defaults
 
 
 # --------------------------------------------------
